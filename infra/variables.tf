@@ -7,15 +7,13 @@ variable "lambda_config" {
   description = "Configuration of the deployed lambda function"
   type = object({
     runtime     = string,
-    timeout     = number
+    timeout     = number,
     memory_size = number
-    target_sqs  = string
   })
   default = {
     runtime     = "python3.7"
     timeout     = 600
     memory_size = 512
-    target_sqs  = "n/a"
   }
 }
 

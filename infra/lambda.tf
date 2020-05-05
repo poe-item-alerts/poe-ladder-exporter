@@ -20,12 +20,6 @@ resource "aws_lambda_function" "poe_ladder_exporter" {
     target_arn = aws_sns_topic.deadletter.arn
   }
 
-  environment {
-    variables = {
-      target_sqs = var.lambda_config["target_sqs"]
-    }
-  }
-
   depends_on = [data.archive_file.poe_ladder_exporter]
 }
 
