@@ -34,6 +34,7 @@ jobs:
     - name: Run unittests
       run: |
         cd src
+        mkdir -p ~/.aws
         touch ~/.aws/config
         export AWS_ACCESS_KEY_ID='testing'
         export AWS_SECRET_ACCESS_KEY='testing'
