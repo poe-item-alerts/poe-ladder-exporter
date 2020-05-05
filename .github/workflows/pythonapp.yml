@@ -34,5 +34,9 @@ jobs:
     - name: Run unittests
       run: |
         cd src
-        echo $AWS_ACCESS_KEY_ID
+        touch ~/.aws/config
+        export AWS_ACCESS_KEY_ID='testing'
+        export AWS_SECRET_ACCESS_KEY='testing'
+        export AWS_SECURITY_TOKEN='testing'
+        export AWS_SESSION_TOKEN='testing'
         nosetests --with-coverage --cover-branches --cover-erase --cover-min-percent=1 --cover-package=poe_ladder_exporter
