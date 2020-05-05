@@ -34,4 +34,5 @@ jobs:
     - name: Run unittests
       run: |
         cd src
+        echo $AWS_ACCESS_KEY_ID
         nosetests --with-coverage --cover-branches --cover-erase --cover-min-percent=1 --cover-package=poe_ladder_exporter
