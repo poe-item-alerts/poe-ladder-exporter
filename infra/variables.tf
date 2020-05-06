@@ -25,7 +25,7 @@ variable "schedule" {
 
 variable "commit_sha" {
   description = "Variable that is required to be set through `export TF_VAR_commit_short_sha=$(git rev-parse HEAD)` this will determine the source code zip for the lambda"
-  type = string
+  type        = string
 }
 
 variable "tags" {
