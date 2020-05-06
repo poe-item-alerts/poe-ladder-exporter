@@ -1,19 +1,15 @@
 import json
 import logging
-import uuid
 
 import boto3
 
 from poe_ladder_exporter.ladder import ladder_export, generate_events
 
 
-corr_id = {"corr_id": uuid.uuid4()}
 logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(corr_id)s - %(message)s'
+    level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
-logger = logging.LoggerAdapter(logger, corr_id)
 
 
 def handler(event, context):

@@ -23,6 +23,11 @@ variable "schedule" {
   default     = "rate(30 minutes)"
 }
 
+variable "commit_sha" {
+  description = "Variable that is required to be set through `export TF_VAR_commit_short_sha=$(git rev-parse HEAD)` this will determine the source code zip for the lambda"
+  type = string
+}
+
 variable "tags" {
   description = "Common tags shared across all resources, specific tags are in the resources"
   type = object({

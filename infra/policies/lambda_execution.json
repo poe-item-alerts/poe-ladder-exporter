@@ -5,9 +5,8 @@
       "Sid": "ICannotBeAskedToAlsoFixThisUp",
       "Effect": "Allow",
       "Action": [
-        "s3:*",
-        "ssm:*",
-        "dynamodb:*"
+        "ssm:GetParameter",
+        "sns:Publish"
       ],
       "Resource": "*"
     }
