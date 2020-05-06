@@ -40,4 +40,5 @@ jobs:
         export AWS_SECRET_ACCESS_KEY='testing'
         export AWS_SECURITY_TOKEN='testing'
         export AWS_SESSION_TOKEN='testing'
+        export AWS_DEFAULT_REGION='eu-central-1'
         nosetests --with-coverage --cover-branches --cover-erase --cover-min-percent=1 --cover-package=poe_ladder_exporter
