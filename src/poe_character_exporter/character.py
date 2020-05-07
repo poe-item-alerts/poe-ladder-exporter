@@ -5,6 +5,7 @@ import boto3
 import requests
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def get_character(account_name, character_name):

@@ -7,10 +7,8 @@ import boto3
 from poe_ladder_exporter.ladder import ladder_export, generate_events
 
 
-logging.basicConfig(
-    level=logging.DEBUG
-)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def handler(event, context):
@@ -33,11 +31,12 @@ def handler(event, context):
             "character": entry["character"]["name"]
         }
         entries.append(tmp)
-    return_event = {"CorrelationId": str(uuid.uuid4()), "characters": entries}
+    correlation_id = str(uuid.uuid4())
+    return_event = {"CorrelationId": correlation_id, "characters": entries}
     client = boto3.client('stepfunctions')
     client.start_execution(
         stateMachineArn="arn:aws:states:eu-central-1:983498139013:stateMachine:poe_character_exporter",
-        name="Run for {leagues}",
+        name=f"{correlation_id}",
         input=json.dumps(return_event)
     )
     return return_event
