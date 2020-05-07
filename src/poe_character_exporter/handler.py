@@ -8,6 +8,7 @@ logger.setLevel(logging.DEBUG)
 
 
 def handler(event, context):
+    ddb = boto3.resource("dynamodb")
     if not event.get("CorrelationId"):
         logger.warning(f"Missing correlation id in the envent! Generating one...")
         correlation_id = uuid.uuid4()
@@ -30,4 +31,37 @@ def handler(event, context):
             elif error["code"] == 2:
                 logger.warning(f"Early exit from the character loop, rate limit too high")
                 break
+        else:
+            poe_character_table = ddb.Table("poe_item_alerts_characters") 
+            ddb_item = remove_empty_string(character)
+            poe_api_cache_table.put_item(
+                Item={
+                    "character_name": c["character"],
+                    "account_name": c["account"],
+                    "items": ddb_item
+                }
+            )
     return event
+
+
+def remove_empty_string(dic):
+    if isinstance(dic, str):
+        if dic == "":
+            return None
+        else:
+            return dic
+
+    if isinstance(dic, list):
+        conv = lambda i: i or None  # noqa: E731
+        return [conv(i) for i in dic]
+
+    for e in dic:
+        if isinstance(dic[e], dict):
+            dic[e] = remove_empty_string(dic[e])
+        if isinstance(dic[e], str) and dic[e] == "":
+            dic[e] = None
+        if isinstance(dic[e], list):
+            for entry in dic[e]:
+                remove_empty_string(entry)
+
+    return dic
