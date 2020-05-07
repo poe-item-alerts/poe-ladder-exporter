@@ -27,4 +27,10 @@ def handler(event, context):
     logger.info(f"Got ladder with {len(ladder['entries'])} entries")
     logger.info(f"Starting to generate events per entry")
     return_event = {"CorrelationId": uuid.uuid4(), "characters": ladder["entries"]}
+    client = boto3.client('stepfunctions')
+    client.start_execution(
+        stateMachineArn="arn:aws:states:eu-central-1:983498139013:stateMachine:poe_character_exporter",
+        name="Run for {leagues}",
+        input=json.dumps(return_event)
+    )
     return return_event
