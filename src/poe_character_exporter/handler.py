@@ -1,6 +1,8 @@
 import logging
 import uuid
 
+import boto3
+
 from poe_character_exporter.character import get_character
 
 logger = logging.getLogger(__name__)
