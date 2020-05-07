@@ -35,8 +35,9 @@ def handler(event, context):
                 break
         else:
             poe_character_table = ddb.Table("poe_item_alerts_characters") 
-            ddb_item = remove_empty_string(character)
-            poe_api_cache_table.put_item(
+            parsed_char = json.loads(json.dumps(character), parse_float=Decimal)
+            ddb_item = remove_empty_string(parsed_char)
+            poe_character_table.put_item(
                 Item={
                     "character_name": c["character"],
                     "account_name": c["account"],
