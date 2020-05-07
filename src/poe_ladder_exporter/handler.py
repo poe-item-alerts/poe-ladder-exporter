@@ -33,7 +33,7 @@ def handler(event, context):
             "character": entry["character"]["name"]
         }
         entries.append(tmp)
-    return_event = {"CorrelationId": uuid.uuid4(), "characters": entries}
+    return_event = {"CorrelationId": str(uuid.uuid4()), "characters": entries}
     client = boto3.client('stepfunctions')
     client.start_execution(
         stateMachineArn="arn:aws:states:eu-central-1:983498139013:stateMachine:poe_character_exporter",
