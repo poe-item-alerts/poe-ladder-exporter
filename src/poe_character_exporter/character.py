@@ -4,9 +4,6 @@ import time
 import boto3
 import requests
 
-logging.basicConfig(
-    level=logging.DEBUG
-)
 logger = logging.getLogger(__name__)
 
 

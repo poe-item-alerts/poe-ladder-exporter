@@ -3,10 +3,8 @@ import uuid
 
 from poe_character_exporter.character import get_character
 
-logging.basicConfig(
-    level=logging.DEBUG
-)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def handler(event, context):
