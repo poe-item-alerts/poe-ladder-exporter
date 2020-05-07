@@ -1,0 +1,185 @@
+{
+    "items": [
+        {
+            "verified": false,
+            "w": 1,
+            "h": 2,
+            "icon": "http://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtc1wvRmxhc2tzXC9saWZlZmxhc2sxIiwidyI6MSwiaCI6Miwic2NhbGUiOnRydWUsImxldmVsIjoxfV0/ea8f00f923/Item.png",
+            "league": "Method Rush BANNED Race (PL8971)",
+            "id": "00fa6187d305044f8f4057dd028dd2575ebf91ffc4410ea1753e0a237658d803",
+            "name": "",
+            "typeLine": "Small Life Flask",
+            "identified": true,
+            "ilvl": 1,
+            "properties": [
+                {
+                    "name": "Recovers %0 Life over %1 Seconds",
+                    "values": [
+                        [
+                            "70",
+                            0
+                        ],
+                        [
+                            "6.00",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                },
+                {
+                    "name": "Consumes %0 of %1 Charges on use",
+                    "values": [
+                        [
+                            "7",
+                            0
+                        ],
+                        [
+                            "21",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                },
+                {
+                    "name": "Currently has %0 Charges",
+                    "values": [
+                        [
+                            "21",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                }
+            ],
+            "descrText": "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
+            "frameType": 0,
+            "x": 0,
+            "y": 0,
+            "inventoryId": "Flask"
+        },
+        {
+            "verified": false,
+            "w": 1,
+            "h": 2,
+            "icon": "http://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtc1wvRmxhc2tzXC9saWZlZmxhc2sxIiwidyI6MSwiaCI6Miwic2NhbGUiOnRydWUsImxldmVsIjoxfV0/ea8f00f923/Item.png",
+            "league": "Method Rush BANNED Race (PL8971)",
+            "id": "f83181dd617c32cba32e7ebcb3b99dccc3d8b771f299782b3dcea8b829d16f2d",
+            "name": "",
+            "typeLine": "Small Life Flask",
+            "identified": true,
+            "ilvl": 1,
+            "properties": [
+                {
+                    "name": "Recovers %0 Life over %1 Seconds",
+                    "values": [
+                        [
+                            "70",
+                            0
+                        ],
+                        [
+                            "6.00",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                },
+                {
+                    "name": "Consumes %0 of %1 Charges on use",
+                    "values": [
+                        [
+                            "7",
+                            0
+                        ],
+                        [
+                            "21",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                },
+                {
+                    "name": "Currently has %0 Charges",
+                    "values": [
+                        [
+                            "21",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                }
+            ],
+            "descrText": "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
+            "frameType": 0,
+            "x": 1,
+            "y": 0,
+            "inventoryId": "Flask"
+        },
+        {
+            "verified": false,
+            "w": 1,
+            "h": 2,
+            "icon": "http://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtc1wvRmxhc2tzXC9tYW5hZmxhc2sxIiwidyI6MSwiaCI6Miwic2NhbGUiOnRydWUsImxldmVsIjoxfV0/d02fbae91d/Item.png",
+            "league": "Method Rush BANNED Race (PL8971)",
+            "id": "c179be498ea39e7f4d04658070425f0b641673e3c52edd05e20951c646e1586c",
+            "name": "",
+            "typeLine": "Small Mana Flask",
+            "identified": true,
+            "ilvl": 1,
+            "properties": [
+                {
+                    "name": "Recovers %0 Mana over %1 Seconds",
+                    "values": [
+                        [
+                            "50",
+                            0
+                        ],
+                        [
+                            "3.00",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                },
+                {
+                    "name": "Consumes %0 of %1 Charges on use",
+                    "values": [
+                        [
+                            "6",
+                            0
+                        ],
+                        [
+                            "24",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                },
+                {
+                    "name": "Currently has %0 Charges",
+                    "values": [
+                        [
+                            "24",
+                            0
+                        ]
+                    ],
+                    "displayMode": 3
+                }
+            ],
+            "descrText": "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters.",
+            "frameType": 0,
+            "x": 4,
+            "y": 0,
+            "inventoryId": "Flask"
+        }
+    ],
+    "character": {
+        "name": "ViyroCountdown",
+        "league": "Method Rush BANNED Race (PL8971)",
+        "classId": 0,
+        "ascendancyClass": 0,
+        "class": "Scion",
+        "level": 1,
+        "experience": 0,
+        "lastActive": true
+    }
+}

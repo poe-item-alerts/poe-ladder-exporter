@@ -1,5 +1,6 @@
 import json
 import logging
+import uuid
 
 import boto3
 
@@ -25,5 +26,5 @@ def handler(event, context):
         return
     logger.info(f"Got ladder with {len(ladder['entries'])} entries")
     logger.info(f"Starting to generate events per entry")
-    player_events = generate_events(ladder)
-    return json.dumps(ladder)
+    return_event = {"CorrelationId": uuid.uuid4(), "characters": ladder["entries"]}
+    return return_event
