@@ -22,7 +22,7 @@ def handler(event, context):
         if event["characters"] == -1:
             break
         c = event["characters"].pop(0)
-        character = get_character(c["account"]["name"], c["character"]["name"])
+        character = get_character(c["account"], c["character"])
         if character.get("error"):
             error = character["error"]
             if error["code"] == 1:
