@@ -10,4 +10,3 @@ resource "aws_cloudwatch_event_target" "poe_ladder_exporter" {
   rule      = aws_cloudwatch_event_rule.poe_ladder_exporter.name
   arn       = aws_lambda_function.poe_ladder_exporter.arn
 }
-

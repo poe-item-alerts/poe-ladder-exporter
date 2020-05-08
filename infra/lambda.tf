@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "poe_ladder_exporter" {
-  filename      = "../src/function-${var.commit_sha}.zip"
+  filename      = "../src/poe_ladder_exporter-${var.commit_sha}.zip"
   function_name = "poe_ladder_exporter"
   description   = "Exports the poe character window API into a cache"
   role          = aws_iam_role.poe_ladder_exporter.arn
@@ -20,4 +20,20 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
   function_name = aws_lambda_function.poe_ladder_exporter.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.poe_ladder_exporter.arn
+}
+
+resource "aws_lambda_function" "poe_character_exporter" {
+  filename      = "../src/poe_character_exporter-${var.commit_sha}.zip"
+  function_name = "poe_character_exporter"
+  description   = "Exports the poe character window API into a cache"
+  role          = aws_iam_role.poe_character_exporter.arn
+  handler       = "poe_character_exporter.handler.handler"
+  runtime       = var.poe_character_lambda_config["runtime"]
+  timeout       = var.poe_character_lambda_config["timeout"]
+  memory_size   = var.poe_character_lambda_config["memory_size"]
+  tags          = var.tags
+
+  dead_letter_config {
+    target_arn = aws_sns_topic.deadletter.arn
+  }
 }
