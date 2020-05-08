@@ -4,8 +4,6 @@ import uuid
 
 import boto3
 
-from decimal import Decimal
-
 from poe_character_exporter.character import get_character, format_character
 
 logger = logging.getLogger(__name__)
@@ -38,7 +36,7 @@ def handler(event, context):
                 break
         else:
             poe_character_table = ddb.Table("poe_item_alerts_characters") 
-            ddb_item = format_character(character)
+            ddb_item = format_character(character, c["account"])
             poe_character_table.put_item(Item=ddb_item)
     return event
 

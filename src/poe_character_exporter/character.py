@@ -1,5 +1,8 @@
 import logging
+import json
 import time
+
+from decimal import Decimal
 
 import boto3
 import requests
@@ -72,6 +75,7 @@ def format_character(character, account):
         },
         "items": [format_item(i) for i in parsed["items"]]
     }
+    return ddb_item
 
 
 def format_item(item):
@@ -79,49 +83,45 @@ def format_item(item):
         "name": item["name"],
         "icon": item["icon"],
         "typeLine": item["typeLine"],
-        "implicitMods": item["implicitMods"],
-        "explicitMods": item["explicitMods"],
-        "craftedMods": item["craftedMods"],
-        "inventoryId": item["inventoryId"],
-        "socketedItems": item["socktedItems"]
+        "inventoryId": item["inventoryId"]
     }
-    sockets = format_sockets(item["sockets"])
-    formatted_item["links"] = sockets["link_count"]
-    formatted_item["linkColours"] = sockets["link_colours"]
+    try:
+        formatted_item["craftedMods"] = item["craftedMods"]
+    except KeyError:
+        formatted_item["craftedMods"] = [""]
+    try:
+        formatted_item["explicitMods"] = item["explicitMods"]
+    except KeyError:
+        formatted_item["explicitMods"] = [""]
+    try:
+        links = format_sockets(item["sockets"])
+        formatted_item["links"] = links
+    except KeyError:
+        formatted_item["links"] = 0
+    return formatted_item
 
 
 def format_sockets(sockets):
-    group0 = {}
-    group1 = {}
-    group2 = {}
-    group3 = {}
+    g0 = 0
+    g1 = 0
+    g2 = 0
+    g3 = 0
     for socket in sockets:
         if socket["group"] == 0:
-            group0["link_count"] += 1
-            group0["link_colours"].append(socket["sColour"])
+            g0 += 1
         elif socket["group"] == 1:
-            group1["link_count"] += 1
-            group1["link_colours"].append(socket["sColour"])
+            g1 += 1
         elif socket["group"] == 2:
-            group2["link_count"] += 1
-            group2["link_colours"].append(socket["sColour"])
+            g2 += 1
         elif socket["group"] == 3:
-            group3["link_count"] += 1
-            group3["link_colours"].append(socket["sColour"])
+            g3 += 1
     
-    for g, n in zip([group0, group1, group2, group3], ["g0", "g1", "g2", "g3"]):
-        highest_link_count = 0
-        biggest_group = ""
-        if g["link_count"] > highest_link_count:
-            biggest_group = n
-    if biggest_group == "g0":
-        return group0
-    elif biggest_group == "g1":
-        return group1
-    elif biggest_group == "g2":
-        return group2
-    elif biggest_group == "g3":
-        return group3
+    highest_link_count = 0
+    for g in [g0, g1, g2, g3]:
+        if g > highest_link_count:
+            highest_link_count = g
+    return g
+
 
 def remove_empty_string(dic):
     if isinstance(dic, str):
