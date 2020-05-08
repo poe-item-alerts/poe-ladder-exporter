@@ -4,6 +4,8 @@ import uuid
 
 import boto3
 
+from decimal import Decimal
+
 from poe_character_exporter.character import get_character
 
 logger = logging.getLogger(__name__)
