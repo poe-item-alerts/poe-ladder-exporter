@@ -57,3 +57,90 @@ def _rate_limit_backoff(headers):
             logger.warning(f"Rate is at 44req/s backing off for {backoff_duration}s")
             return True
     return False
+
+
+def format_character(character, account):
+    logger.debug(f"Starting function format_character")
+    parsed = remove_empty_string(json.loads(json.dumps(character), parse_float=Decimal))
+    ddb_item = {
+        "league_name": parsed["character"]["league"],
+        "account_name": account,
+        "character": {
+            "name": parsed["character"]["name"],
+            "class": parsed["character"]["class"],
+            "level": parsed["character"]["level"]
+        },
+        "items": [format_item(i) for i in parsed["items"]]
+    }
+
+
+def format_item(item):
+    formatted_item = {
+        "name": item["name"],
+        "icon": item["icon"],
+        "typeLine": item["typeLine"],
+        "implicitMods": item["implicitMods"],
+        "explicitMods": item["explicitMods"],
+        "craftedMods": item["craftedMods"],
+        "inventoryId": item["inventoryId"],
+        "socketedItems": item["socktedItems"]
+    }
+    sockets = format_sockets(item["sockets"])
+    formatted_item["links"] = sockets["link_count"]
+    formatted_item["linkColours"] = sockets["link_colours"]
+
+
+def format_sockets(sockets):
+    group0 = {}
+    group1 = {}
+    group2 = {}
+    group3 = {}
+    for socket in sockets:
+        if socket["group"] == 0:
+            group0["link_count"] += 1
+            group0["link_colours"].append(socket["sColour"])
+        elif socket["group"] == 1:
+            group1["link_count"] += 1
+            group1["link_colours"].append(socket["sColour"])
+        elif socket["group"] == 2:
+            group2["link_count"] += 1
+            group2["link_colours"].append(socket["sColour"])
+        elif socket["group"] == 3:
+            group3["link_count"] += 1
+            group3["link_colours"].append(socket["sColour"])
+    
+    for g, n in zip([group0, group1, group2, group3], ["g0", "g1", "g2", "g3"]):
+        highest_link_count = 0
+        biggest_group = ""
+        if g["link_count"] > highest_link_count:
+            biggest_group = n
+    if biggest_group == "g0":
+        return group0
+    elif biggest_group == "g1":
+        return group1
+    elif biggest_group == "g2":
+        return group2
+    elif biggest_group == "g3":
+        return group3
+
+def remove_empty_string(dic):
+    if isinstance(dic, str):
+        if dic == "":
+            return None
+        else:
+            return dic
+
+    if isinstance(dic, list):
+        conv = lambda i: i or None  # noqa: E731
+        return [conv(i) for i in dic]
+
+    for e in dic:
+        if isinstance(dic[e], dict):
+            dic[e] = remove_empty_string(dic[e])
+        if isinstance(dic[e], str) and dic[e] == "":
+            dic[e] = None
+        if isinstance(dic[e], list):
+            for entry in dic[e]:
+                remove_empty_string(entry)
+
+    return dic

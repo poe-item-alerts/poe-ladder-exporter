@@ -6,7 +6,7 @@ import boto3
 
 from decimal import Decimal
 
-from poe_character_exporter.character import get_character
+from poe_character_exporter.character import get_character, format_character
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -38,36 +38,8 @@ def handler(event, context):
                 break
         else:
             poe_character_table = ddb.Table("poe_item_alerts_characters") 
-            parsed_char = json.loads(json.dumps(character), parse_float=Decimal)
-            ddb_item = remove_empty_string(parsed_char)
-            poe_character_table.put_item(
-                Item={
-                    "character_name": c["character"],
-                    "account_name": c["account"],
-                    "items": ddb_item
-                }
-            )
+            ddb_item = format_character(character)
+            poe_character_table.put_item(Item=ddb_item)
     return event
 
 
-def remove_empty_string(dic):
-    if isinstance(dic, str):
-        if dic == "":
-            return None
-        else:
-            return dic
-
-    if isinstance(dic, list):
-        conv = lambda i: i or None  # noqa: E731
-        return [conv(i) for i in dic]
-
-    for e in dic:
-        if isinstance(dic[e], dict):
-            dic[e] = remove_empty_string(dic[e])
-        if isinstance(dic[e], str) and dic[e] == "":
-            dic[e] = None
-        if isinstance(dic[e], list):
-            for entry in dic[e]:
-                remove_empty_string(entry)
-
-    return dic

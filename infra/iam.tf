@@ -58,3 +58,20 @@ resource "aws_iam_role_policy_attachment" "poe_character_exporter_sfn" {
   role       = aws_iam_role.poe_character_exporter_sfn.name
   policy_arn = aws_iam_policy.poe_character_exporter_sfn.arn
 }
+
+resource "aws_iam_role" "app_sync" {
+  name               = "poe_ladder_export_app_sync"
+  assume_role_policy = file("policies/app_sync_assume_role.json")
+  tags               = var.tags
+}
+
+resource "aws_iam_policy" "app_sync" {
+  name        = "poe_ladder_export_app_sync"
+  description = "Allows app sync to handle the dynamoDB table"
+  policy      = templatefile("policies/app_sync.json", {ddb_table=aws_dynamodb_table.poe_api_export_cache.arn})
+}
+
+resource "aws_iam_role_policy_attachment" "app_sync" {
+  role       = aws_iam_role.app_sync.name
+  policy_arn = aws_iam_policy.app_sync.arn
+}
