@@ -5,10 +5,10 @@
       "Sid": "ICannotBeAskedToAlsoFixThisUp",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameter",
-        "sns:Publish"
+        "lambda:*"
       ],
       "Resource": "*"
     }
   ]
 }
+

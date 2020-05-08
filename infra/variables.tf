@@ -3,17 +3,36 @@ variable "aws_region" {
   default     = "eu-central-1"
 }
 
+variable "commit_sha" {
+  description = "Variable that is required to be set through `export TF_VAR_commit_short_sha=$(git rev-parse HEAD)` this will determine the source code zip for the lambda"
+  type        = string
+}
+
 variable "lambda_config" {
   description = "Configuration of the deployed lambda function"
   type = object({
+    memory_size = number
     runtime     = string,
     timeout     = number,
-    memory_size = number
   })
   default = {
+    memory_size = 512
     runtime     = "python3.7"
     timeout     = 600
+  }
+}
+
+variable "poe_character_lambda_config" {
+  description = "Configuration of the deployed lambda function"
+  type = object({
+    memory_size = number
+    runtime     = string,
+    timeout     = number,
+  })
+  default = {
     memory_size = 512
+    runtime     = "python3.7"
+    timeout     = 600
   }
 }
 
@@ -23,10 +42,6 @@ variable "schedule" {
   default     = "rate(30 minutes)"
 }
 
-variable "commit_sha" {
-  description = "Variable that is required to be set through `export TF_VAR_commit_short_sha=$(git rev-parse HEAD)` this will determine the source code zip for the lambda"
-  type        = string
-}
 
 variable "tags" {
   description = "Common tags shared across all resources, specific tags are in the resources"
