@@ -1,9 +1,6 @@
 name: Test python
 
 on:
-  push:
-    paths:
-      - 'src/**'
   pull_request:
     paths:
       - 'infra/**'

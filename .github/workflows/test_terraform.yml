@@ -1,9 +1,6 @@
 name: Test terraform
 
 on:
-  push:
-    paths:
-      - 'infra/**'
   pull_request:
     paths:
       - 'infra/**'
