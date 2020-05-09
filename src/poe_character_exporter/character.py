@@ -69,11 +69,9 @@ def format_character(character, account):
     ddb_item = {
         "league_name": parsed["character"]["league"],
         "account_name": account,
-        "character": {
-            "name": parsed["character"]["name"],
-            "class": parsed["character"]["class"],
-            "level": parsed["character"]["level"]
-        },
+        "character_name": parsed["character"]["name"],
+        "character_class": parsed["character"]["class"],
+        "character_level": parsed["character"]["level"],
         "items": [format_item(i) for i in parsed["items"]]
     }
     return ddb_item
