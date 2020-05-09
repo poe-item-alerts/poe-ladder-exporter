@@ -89,11 +89,11 @@ def format_item(item):
     try:
         formatted_item["craftedMods"] = item["craftedMods"]
     except KeyError:
-        formatted_item["craftedMods"] = [""]
+        formatted_item["craftedMods"] = None
     try:
         formatted_item["explicitMods"] = item["explicitMods"]
     except KeyError:
-        formatted_item["explicitMods"] = [""]
+        formatted_item["explicitMods"] = None
     try:
         links = format_sockets(item["sockets"])
         formatted_item["links"] = links
