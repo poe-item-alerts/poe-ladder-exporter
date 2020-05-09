@@ -4,7 +4,7 @@ import uuid
 
 import boto3
 
-from poe_character_exporter.character import get_character, format_character
+from poe_character_exporter.character import get_character, format_item
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
