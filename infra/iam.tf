@@ -68,7 +68,7 @@ resource "aws_iam_role" "app_sync" {
 resource "aws_iam_policy" "app_sync" {
   name        = "poe_ladder_export_app_sync"
   description = "Allows app sync to handle the dynamoDB table"
-  policy      = templatefile("policies/app_sync.json", {ddb_table=aws_dynamodb_table.poe_api_export_cache.arn})
+  policy      = templatefile("policies/app_sync.json", { ddb_table = aws_dynamodb_table.poe_api_export_cache.arn })
 }
 
 resource "aws_iam_role_policy_attachment" "app_sync" {
