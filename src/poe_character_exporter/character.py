@@ -1,6 +1,7 @@
 import logging
 import json
 import time
+import collections
 
 from decimal import Decimal
 
@@ -102,25 +103,10 @@ def format_item(item):
 
 
 def format_sockets(sockets):
-    g0 = 0
-    g1 = 0
-    g2 = 0
-    g3 = 0
-    for socket in sockets:
-        if socket["group"] == 0:
-            g0 += 1
-        elif socket["group"] == 1:
-            g1 += 1
-        elif socket["group"] == 2:
-            g2 += 1
-        elif socket["group"] == 3:
-            g3 += 1
-    
-    highest_link_count = 0
-    for g in [g0, g1, g2, g3]:
-        if g > highest_link_count:
-            highest_link_count = g
-    return g
+    groups = [s["group"] for s in sockets]
+    count = collections.Counter(groups)
+    links = max(count.values())
+    return links
 
 
 def remove_empty_string(dic):
