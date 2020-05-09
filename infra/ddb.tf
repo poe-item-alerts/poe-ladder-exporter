@@ -1,15 +1,15 @@
 resource "aws_dynamodb_table" "poe_api_export_cache" {
   name         = "poe_item_alerts_characters"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "league_name"
-  range_key    = "character_name"
+  hash_key     = "league"
+  range_key    = "id"
 
   attribute {
-    name = "league_name"
+    name = "league"
     type = "S"
   }
   attribute {
-    name = "character_name"
+    name = "id"
     type = "S"
   }
 }
