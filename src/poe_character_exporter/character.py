@@ -79,8 +79,8 @@ def format_character(character, account):
 
 def format_item(item):
     formatted_item = {
-        "id": item["id"]
-        "league": item["league"]
+        "id": item["id"],
+        "league": item["league"],
         "name": item["name"],
         "icon": item["icon"],
         "typeLine": item["typeLine"],
