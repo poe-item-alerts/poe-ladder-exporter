@@ -2,6 +2,7 @@ resource "aws_cloudwatch_event_rule" "poe_ladder_exporter" {
   name                = "poe_ladder_exporter"
   description         = "triggers the poe_ladder_exporter every minute"
   schedule_expression = var.schedule
+  is_enabled          = false
   tags                = var.tags
 }
 
