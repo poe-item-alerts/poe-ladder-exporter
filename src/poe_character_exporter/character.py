@@ -79,11 +79,17 @@ def format_character(character, account):
 
 def format_item(item):
     formatted_item = {
+        "id": item["id"]
+        "league": item["league"]
         "name": item["name"],
         "icon": item["icon"],
         "typeLine": item["typeLine"],
         "inventoryId": item["inventoryId"]
     }
+    try:
+        formatted_item["flavourText"] = item["flavourText"]
+    except KeyError:
+        formatted_item["flavourText"] = None
     try:
         formatted_item["craftedMods"] = item["craftedMods"]
     except KeyError:

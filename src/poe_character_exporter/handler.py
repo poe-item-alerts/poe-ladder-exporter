@@ -36,8 +36,13 @@ def handler(event, context):
                 break
         else:
             poe_character_table = ddb.Table("poe_item_alerts_characters") 
-            ddb_item = format_character(character, c["account"])
-            poe_character_table.put_item(Item=ddb_item)
+            for item in character["items"]:
+                ddb_item = format_item(item)
+                ddb_item["character_name"] = c["character"]
+                ddb_item["character_class"] = character["character"]["class"]
+                ddb_item["character_level"] = character["character"]["level"]
+                ddb_item["account_name"] = c["account"]
+                poe_character_table.put_item(Item=ddb_item)
     return event
 
 
