@@ -3,7 +3,7 @@ name: Test python
 on:
   pull_request:
     paths:
-      - 'infra/**'
+      - 'src/**'
 
 jobs:
   unit-test:
