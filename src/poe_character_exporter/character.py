@@ -78,28 +78,29 @@ def format_character(character, account):
 
 
 def format_item(item):
+    parsed = remove_empty_string(json.loads(json.dumps(item), parse_float=Decimal))
     formatted_item = {
-        "id": item["id"],
-        "league": item["league"],
-        "name": item["name"],
-        "icon": item["icon"],
-        "typeLine": item["typeLine"],
-        "inventoryId": item["inventoryId"]
+        "id": parsed["id"],
+        "league": parsed["league"],
+        "name": parsed["name"],
+        "icon": parsed["icon"],
+        "typeLine": parsed["typeLine"],
+        "inventoryId": parsed["inventoryId"]
     }
     try:
-        formatted_item["flavourText"] = item["flavourText"]
+        formatted_item["flavourText"] = parsed["flavourText"]
     except KeyError:
         formatted_item["flavourText"] = None
     try:
-        formatted_item["craftedMods"] = item["craftedMods"]
+        formatted_item["craftedMods"] = parsed["craftedMods"]
     except KeyError:
         formatted_item["craftedMods"] = None
     try:
-        formatted_item["explicitMods"] = item["explicitMods"]
+        formatted_item["explicitMods"] = parsed["explicitMods"]
     except KeyError:
         formatted_item["explicitMods"] = None
     try:
-        links = format_sockets(item["sockets"])
+        links = format_sockets(parsed["sockets"])
         formatted_item["links"] = links
     except KeyError:
         formatted_item["links"] = 0
