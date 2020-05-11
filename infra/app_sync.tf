@@ -17,7 +17,7 @@ resource "aws_appsync_datasource" "ladder_table" {
 
 resource "aws_appsync_resolver" "list_items" {
   api_id = aws_appsync_graphql_api.poe_ladder_export_api.id
-  field  = "listItems(...): ItemConnection"
+  field  = "listItems"
   type   = "Query"
   data_source = aws_appsync_datasource.ladder_table.name
   request_template = file("data/list_request_mapping")
