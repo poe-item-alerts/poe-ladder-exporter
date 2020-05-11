@@ -1,0 +1,96 @@
+type Item {
+	id: String!
+	league: String!
+	account_name: String
+	character_name: String
+	character_class: String
+	character_level: Int
+	craftedMods: [String]
+	explicitMods: [String]
+	flavourText: [String]
+	inventoryId: String
+	links: Int
+	name: String
+	typeLine: String
+}
+
+type ItemConnection {
+	items: [Item]
+	nextToken: String
+}
+
+type Query {
+	getItem(league: String!, id: String!): Item
+	listItems(filter: ItemFilterInput, limit: Int, nextToken: String): ItemConnection
+}
+
+input TableBooleanFilterInput {
+	ne: Boolean
+	eq: Boolean
+}
+
+input TableFloatFilterInput {
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	contains: Float
+	notContains: Float
+	between: [Float]
+}
+
+input TableIDFilterInput {
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
+}
+
+input TableIntFilterInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	contains: Int
+	notContains: Int
+	between: [Int]
+}
+
+input ItemFilterInput {
+	id: TableStringFilterInput
+	league: TableStringFilterInput
+	account_name: TableStringFilterInput
+	character_name: TableStringFilterInput
+	character_class: TableStringFilterInput
+	character_level: TableIntFilterInput
+	craftedMods: TableStringFilterInput
+	explicitMods: TableStringFilterInput
+	flavourText: TableStringFilterInput
+	inventoryId: TableStringFilterInput
+	links: TableIntFilterInput
+	name: TableStringFilterInput
+	typeLine: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
+}
