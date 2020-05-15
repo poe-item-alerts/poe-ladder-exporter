@@ -19,7 +19,7 @@ def ladder_export(ladder_name):
     ladder_limit = 200
     ladder_total = ladder_limit
     if ladder_slice["total"] > ladder_limit:
-        logger.info(f"Ladder total exceeds the current limit of 2000 and will be cut off.")
+        logger.info(f"Ladder total exceeds the current limit of {ladder_limit} and will be cut off.")
     else:
         ladder_total = ladder_slice["total"]
         logger.info(f"Ladder total entries are {ladder_total}")
