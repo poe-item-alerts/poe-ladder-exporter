@@ -24,7 +24,7 @@ def ladder_export(ladder_name):
     for i in range(math.ceil(ladder_total/200)):
         ladder_slice = _request_ladder(ladder_name, i*200)
         if ladder_slice:
-            ladder_result += ladder_slice["entries"]
+            ladder_result += ladder_slice.json()["entries"]
         else:
             logger.warning(f"Encountered issues with the current ladder slice!")
             logger.warning(f"Error: {ladder_slice}")
