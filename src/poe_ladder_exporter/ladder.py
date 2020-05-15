@@ -2,6 +2,7 @@ import json
 import logging
 import uuid
 import time
+import math
 
 import requests
 
@@ -11,24 +12,41 @@ logger = logging.getLogger(__name__)
 
 def ladder_export(ladder_name):
     logger.debug(f"Started ladder_export function")
-    base_url = "http://api.pathofexile.com"
-    url_path = f"ladders/{ladder_name}"
-    ladder_url = f"{base_url}/{url_path}?limit=200"
-    logger.debug(f"Calling {ladder_url}")
-    ladder = requests.get(ladder_url)
-    if ladder.status_code == 200:
-        logger.debug(f"Got a successful response!")
-        logger.debug(f"Returning ladder.")
-        return ladder.json()
-    elif ladder.status_code == 404:
-        logger.warning(f"Ladder resource cannot be found, make sure it exists!")
-        return {}
+    ladder_result = []
+    ladder_slice = _request_ladder(ladder_name, 0)
+    ladder_result += ladder_slice["entries"]
+    ladder_total = 2000
+    if ladder_slice["total"] > 2000:
+        logger.info(f"Ladder total exceeds the current limit of 2000 and will be cut off.")
     else:
-        logger.critical(
-            f"Unhandled HTTP response code encountered! Dumping error: {ladder.json()}"
-        )
-        return {}
+        ladder_total = ladder_slice["total"]
+        logger.info(f"Ladder total entries are {ladder_total}")
+    for i in range(math.ceil(ladder_total/200)):
+        ladder_slice = _request_ladder(ladder_name, i*200)
+        if ladder_slice:
+            ladder_result += ladder_slice["entries"]
+        else:
+            logger.warning(f"Encountered issues with the current ladder slice!")
+            logger.warning(f"Error: {ladder_slice}")
+    return ladder_result
 
+
+def _request_ladder(name, offset, limit=200):
+    logger.debug(f"Getting ladder for {name}")
+    base_url = "http://api.pathofexile.com"
+    url_path = f"ladders/{name}"
+    ladder_url = f"{base_url}/{url_path}?limit={limit}?offset={offset}"
+    ladder_response = requests.get(ladder_url)
+    if ladder_response.status_code == 200:
+        logger.debug(f"Ladder API call successful")
+        return ladder_response
+    elif ladder_response.status_code == 404:
+        logger.debug(f"Ladder {name} not found!")
+        return None
+    else:
+        logger.critical(f"Unhandled HTTP response code! Response: {ladder_response.text}")
+        return None
+    
 
 def generate_events(ladder):
     logger.debug(f"Started send_events function")

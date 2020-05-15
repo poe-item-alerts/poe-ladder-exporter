@@ -22,10 +22,10 @@ def handler(event, context):
     if not ladder:
         logger.critical(f"There was an error getting the ladder! Exiting...")
         return
-    logger.info(f"Got ladder with {len(ladder['entries'])} entries")
+    logger.info(f"Got ladder with {len(ladder)} entries")
     logger.info(f"Starting to generate events per entry")
     entries = []
-    for entry in ladder["entries"]:
+    for entry in ladder:
         tmp = {
             "account": entry["account"]["name"],
             "character": entry["character"]["name"]
