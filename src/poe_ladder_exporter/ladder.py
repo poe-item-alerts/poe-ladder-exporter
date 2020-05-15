@@ -8,6 +8,7 @@ import requests
 
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 def ladder_export(ladder_name):
@@ -15,13 +16,14 @@ def ladder_export(ladder_name):
     ladder_result = []
     ladder_slice = _request_ladder(ladder_name, 0)
     ladder_result += ladder_slice["entries"]
-    ladder_total = 2000
-    if ladder_slice["total"] > 2000:
+    ladder_limit = 200
+    ladder_total = ladder_limit
+    if ladder_slice["total"] > ladder_limit:
         logger.info(f"Ladder total exceeds the current limit of 2000 and will be cut off.")
     else:
         ladder_total = ladder_slice["total"]
         logger.info(f"Ladder total entries are {ladder_total}")
-    for i in range(math.ceil(ladder_total/200)):
+    for i in range(math.ceil(ladder_total/ladder_limit)):
         ladder_slice = _request_ladder(ladder_name, i*200)
         if ladder_slice:
             ladder_result += ladder_slice["entries"]
