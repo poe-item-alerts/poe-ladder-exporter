@@ -24,7 +24,7 @@ def ladder_export(ladder_name):
     for i in range(math.ceil(ladder_total/200)):
         ladder_slice = _request_ladder(ladder_name, i*200)
         if ladder_slice:
-            ladder_result += ladder_slice.json()["entries"]
+            ladder_result += ladder_slice["entries"]
         else:
             logger.warning(f"Encountered issues with the current ladder slice!")
             logger.warning(f"Error: {ladder_slice}")
@@ -35,11 +35,12 @@ def _request_ladder(name, offset, limit=200):
     logger.debug(f"Getting ladder for {name}")
     base_url = "http://api.pathofexile.com"
     url_path = f"ladders/{name}"
-    ladder_url = f"{base_url}/{url_path}?limit={limit}?offset={offset}"
+    ladder_url = f"{base_url}/{url_path}?limit={limit}&offset={offset}"
+    logger.debug(f"Calling ladder api with: {ladder_url}")
     ladder_response = requests.get(ladder_url)
     if ladder_response.status_code == 200:
         logger.debug(f"Ladder API call successful")
-        return ladder_response
+        return ladder_response.json()
     elif ladder_response.status_code == 404:
         logger.debug(f"Ladder {name} not found!")
         return None
