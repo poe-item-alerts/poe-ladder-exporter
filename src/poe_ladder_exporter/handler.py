@@ -1,6 +1,7 @@
 import json
 import logging
 import uuid
+import os
 
 import boto3
 
@@ -8,7 +9,10 @@ from poe_ladder_exporter.ladder import ladder_export, generate_events
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+if os.environ.get("LOG_LEVEL"):
+    logger.setLevel(os.environ["LOG_LEVEL"])
+else:
+    logger.setLevel("INFO")
 
 
 def handler(event, context):

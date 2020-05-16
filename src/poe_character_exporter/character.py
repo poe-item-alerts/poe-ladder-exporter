@@ -2,6 +2,7 @@ import logging
 import json
 import time
 import collections
+import os
 
 from decimal import Decimal
 
@@ -9,7 +10,10 @@ import boto3
 import requests
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+if os.environ.get("LOG_LEVEL"):
+    logger.setLevel(os.environ["LOG_LEVEL"])
+else:
+    logger.setLevel("INFO")
 
 
 def get_character(account_name, character_name):
