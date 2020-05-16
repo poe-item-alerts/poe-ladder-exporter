@@ -20,9 +20,13 @@ def ladder_export(ladder_name):
     ladder_result = []
     ladder_slice = _request_ladder(ladder_name, 0)
     ladder_result += ladder_slice["entries"]
+    # this is 200 + the limit :)
     ladder_limit = 200
+    logger.debug(f"Ladder limit set to {ladder_limit}")
     ladder_total = ladder_limit
-    if ladder_slice["total"] > ladder_limit:
+    # beause we already requested the first 200 slice
+    # might break stuff :)
+    if ladder_slice["total"]-200 > ladder_limit:
         logger.info(f"Ladder total exceeds the current limit of {ladder_limit} and will be cut off.")
     else:
         ladder_total = ladder_slice["total"]
@@ -34,6 +38,7 @@ def ladder_export(ladder_name):
         else:
             logger.warning(f"Encountered issues with the current ladder slice!")
             logger.warning(f"Error: {ladder_slice}")
+    logger.debug(f"ladder_export finished")
     return ladder_result
 
 
@@ -53,11 +58,6 @@ def _request_ladder(name, offset, limit=200):
     else:
         logger.critical(f"Unhandled HTTP response code! Response: {ladder_response.text}")
         return None
-    
-
-def generate_events(ladder):
-    logger.debug(f"Started send_events function")
-    return 
     
 
 def _rate_limit_backoff(headers):
