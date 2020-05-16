@@ -8,38 +8,48 @@ variable "commit_sha" {
   type        = string
 }
 
-variable "lambda_config" {
+variable "poe_ladder_lambda_config" {
   description = "Configuration of the deployed lambda function"
   type = object({
-    memory_size = number
+    memory_size = number,
     runtime     = string,
     timeout     = number,
+    log_level   = string,
   })
   default = {
     memory_size = 512
     runtime     = "python3.7"
     timeout     = 600
+    log_level   = "INFO"
   }
 }
 
 variable "poe_character_lambda_config" {
   description = "Configuration of the deployed lambda function"
   type = object({
-    memory_size = number
+    memory_size = number,
     runtime     = string,
     timeout     = number,
+    log_level   = string,
   })
   default = {
     memory_size = 512
     runtime     = "python3.7"
     timeout     = 600
+    log_level   = "INFO"
   }
 }
 
-variable "schedule" {
-  description = "Scheduling expression for the cloudwatch event rule that schedules the lambda function"
-  type        = string
-  default     = "rate(30 minutes)"
+variable "cloudwatch_event_config" {
+  description = "Configuration of the cloudwatch event for the character ingestion"
+  type = object({
+    schedule = string,
+    enabled  = bool
+  })
+  default = {
+    schedule = "rate(30 minutes)"
+    enabled  = false
+  }
 }
 
 

@@ -16,15 +16,15 @@ resource "aws_appsync_datasource" "ladder_table" {
 }
 
 resource "aws_appsync_resolver" "list_items" {
-  api_id = aws_appsync_graphql_api.poe_ladder_export_api.id
-  field  = "listItems"
-  type   = "Query"
-  data_source = aws_appsync_datasource.ladder_table.name
-  request_template = file("data/list_request_mapping")
+  api_id            = aws_appsync_graphql_api.poe_ladder_export_api.id
+  field             = "listItems"
+  type              = "Query"
+  data_source       = aws_appsync_datasource.ladder_table.name
+  request_template  = file("data/list_request_mapping")
   response_template = file("data/list_response_mapping")
 }
 
 resource "aws_appsync_api_key" "temporary" {
-  api_id = aws_appsync_graphql_api.poe_ladder_export_api.id
+  api_id      = aws_appsync_graphql_api.poe_ladder_export_api.id
   description = "Need to figure out key cycling (probably the search lambdas will just authenticate through IAM tho I'm so tired)"
 }
