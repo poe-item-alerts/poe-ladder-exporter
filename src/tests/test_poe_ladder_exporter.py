@@ -9,7 +9,7 @@ import boto3
 from moto import mock_ssm
 
 from poe_ladder_exporter.handler import handler
-from poe_ladder_exporter.ladder import ladder_export, _rate_limit_backoff, generate_events
+from poe_ladder_exporter.ladder import ladder_export, _rate_limit_backoff
 
 
 class TestHandler(TestCase):

@@ -5,7 +5,7 @@ import os
 
 import boto3
 
-from poe_ladder_exporter.ladder import ladder_export, generate_events
+from poe_ladder_exporter.ladder import ladder_export
 
 
 logger = logging.getLogger(__name__)
