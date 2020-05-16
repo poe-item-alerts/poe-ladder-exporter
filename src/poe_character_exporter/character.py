@@ -62,7 +62,7 @@ def _rate_limit_backoff(headers):
         logger.debug(f"Max rate: {m_rate}, {m_int}, {m_pen}")
         if int(c_rate) == 44:
             backoff_duration = 60
-            logger.warning(f"Rate is at 44req/s backing off for {backoff_duration}s")
+            logger.info(f"Request limit reached! Exiting...")
             return True
     return False
 
@@ -78,10 +78,12 @@ def format_character(character, account):
         "character_level": parsed["character"]["level"],
         "items": [format_item(i) for i in parsed["items"]]
     }
+    logger.debug(f"Finished function format_character")
     return ddb_item
 
 
 def format_item(item):
+    logger.debug(f"Starting function format_item")
     parsed = remove_empty_string(json.loads(json.dumps(item), parse_float=Decimal))
     formatted_item = {
         "id": parsed["id"],
@@ -108,17 +110,21 @@ def format_item(item):
         formatted_item["links"] = links
     except KeyError:
         formatted_item["links"] = 0
+    logger.debug(f"Finished function format_item")
     return formatted_item
 
 
 def format_sockets(sockets):
+    logger.debug(f"Starting function format_sockets")
     groups = [s["group"] for s in sockets]
     count = collections.Counter(groups)
     links = max(count.values())
+    logger.debug(f"Finished function format_sockets")
     return links
 
 
 def remove_empty_string(dic):
+    logger.debug(f"Starting function remove_empty_string")
     if isinstance(dic, str):
         if dic == "":
             return None
@@ -138,4 +144,5 @@ def remove_empty_string(dic):
             for entry in dic[e]:
                 remove_empty_string(entry)
 
+    logger.debug(f"Finished function remove_empty_string")
     return dic
