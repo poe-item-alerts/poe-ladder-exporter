@@ -3,12 +3,16 @@ import logging
 import uuid
 import time
 import math
+import os
 
 import requests
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+if os.environ.get("LOG_LEVEL"):
+    logger.setLevel(os.environ["LOG_LEVEL"])
+else:
+    logger.setLevel("INFO")
 
 
 def ladder_export(ladder_name):
