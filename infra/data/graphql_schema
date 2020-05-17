@@ -12,6 +12,8 @@ type Item {
 	links: Int
 	name: String
 	typeLine: String
+  ttl: Int
+  created: Int
 }
 
 type ItemConnection {
@@ -80,6 +82,8 @@ input ItemFilterInput {
 	links: TableIntFilterInput
 	name: TableStringFilterInput
 	typeLine: TableStringFilterInput
+	ttl: TableIntFilterInput
+	created: TableIntFilterInput
 }
 
 input TableStringFilterInput {
