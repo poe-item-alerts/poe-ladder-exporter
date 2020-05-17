@@ -3,6 +3,8 @@ import logging
 import uuid
 import os
 
+from datetime import timezone, datetime
+
 import boto3
 
 from poe_character_exporter.character import get_character, format_item
@@ -46,6 +48,9 @@ def handler(event, context):
                 ddb_item["character_class"] = character["character"]["class"]
                 ddb_item["character_level"] = character["character"]["level"]
                 ddb_item["account_name"] = c["account"]
+                current_epoch = int(datetime.now(tz=timezone.utc).timestamp())
+                ddb_item["created"] = current_epoch
+                ddb_item["ttl"] = current_epoch + 86400
                 poe_character_table.put_item(Item=ddb_item)
     return event
 
