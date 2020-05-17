@@ -20,24 +20,26 @@ def ladder_export(ladder_name):
     ladder_result = []
     ladder_slice = _request_ladder(ladder_name, 0)
     ladder_result += ladder_slice["entries"]
-    # this is 200 + the limit :)
-    ladder_limit = 200
+    ladder_limit = 400
     logger.debug(f"Ladder limit set to {ladder_limit}")
     ladder_total = ladder_limit
     # beause we already requested the first 200 slice
     # might break stuff :)
-    if ladder_slice["total"]-200 > ladder_limit:
-        logger.info(f"Ladder total exceeds the current limit of {ladder_limit+200} and will be cut off.")
+    if ladder_slice["total"] > ladder_limit:
+        logger.info(f"Ladder total exceeds the current limit of {ladder_limit} and will be cut off.")
     else:
         ladder_total = ladder_slice["total"]
         logger.info(f"Ladder total entries are {ladder_total}")
-    for i in range(math.ceil(ladder_total/ladder_limit)):
-        ladder_slice = _request_ladder(ladder_name, i*200)
-        if ladder_slice:
-            ladder_result += ladder_slice["entries"]
-        else:
-            logger.warning(f"Encountered issues with the current ladder slice!")
-            logger.warning(f"Error: {ladder_slice}")
+    if ladder_total <= 200:
+        logger.info(f"Ladder is under 200 entries we already fetched that earlier")
+    else:
+        for i in range(math.ceil(ladder_total/ladder_limit)):
+            ladder_slice = _request_ladder(ladder_name, i*200)
+            if ladder_slice:
+                ladder_result += ladder_slice["entries"]
+            else:
+                logger.warning(f"Encountered issues with the current ladder slice!")
+                logger.warning(f"Error: {ladder_slice}")
     logger.debug(f"ladder_export finished")
     return ladder_result
 
