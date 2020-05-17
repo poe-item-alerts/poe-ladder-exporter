@@ -52,6 +52,7 @@ def handler(event, context):
                 ddb_item["created"] = current_epoch
                 ddb_item["ttl"] = current_epoch + 86400
                 poe_character_table.put_item(Item=ddb_item)
+            logger.info(f"Ingested {c['character']}")
     return event
 
 
