@@ -4,6 +4,11 @@ resource "aws_dynamodb_table" "poe_api_export_cache" {
   hash_key     = "league"
   range_key    = "id"
 
+  ttl {
+    attribute_name = "ttl"
+    enabled = true
+  }
+
   attribute {
     name = "league"
     type = "S"
