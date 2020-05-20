@@ -35,7 +35,7 @@ def handler(event, context):
         tmp = {
             "account": entry["account"]["name"],
             "character": entry["character"]["name"],
-            "dead": entry["character"]["dead"]
+            "dead": entry["dead"]
         }
         entries.append(tmp)
     correlation_id = str(uuid.uuid4())
