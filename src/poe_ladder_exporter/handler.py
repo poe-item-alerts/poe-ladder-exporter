@@ -34,7 +34,8 @@ def handler(event, context):
     for entry in ladder:
         tmp = {
             "account": entry["account"]["name"],
-            "character": entry["character"]["name"]
+            "character": entry["character"]["name"],
+            "dead": entry["character"]["dead"]
         }
         entries.append(tmp)
     correlation_id = str(uuid.uuid4())
