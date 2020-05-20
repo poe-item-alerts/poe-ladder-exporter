@@ -13,6 +13,7 @@ type Item {
 	name: String
 	typeLine: String
   ttl: Int
+  dead: Boolean
   created: Int
 }
 
@@ -84,6 +85,7 @@ input ItemFilterInput {
 	typeLine: TableStringFilterInput
 	ttl: TableIntFilterInput
 	created: TableIntFilterInput
+  dead: TableBooleanFilterInput
 }
 
 input TableStringFilterInput {
