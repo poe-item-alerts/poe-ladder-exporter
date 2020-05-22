@@ -6,11 +6,6 @@
       "Resource": "${lambda_arn}",
       "Next": "WaitForRateLimit"
     },
-    "WaitForRateLimit": {
-      "Type": "Wait",
-      "Seconds": 60,
-      "Next": "LoopFeedsChoice"
-    },
     "LoopFeedsChoice": {
       "Type": "Choice",
       "Choices": [{
@@ -18,7 +13,12 @@
         "NumericEquals": -1,
         "Next": "End"
       }],
-      "Default": "GetCharacters"
+      "Default": "WaitForRateLimit"
+    },
+    "WaitForRateLimit": {
+      "Type": "Wait",
+      "Seconds": 60,
+      "Next": "GetCharacters"
     },
     "End": {
       "Type": "Pass",
