@@ -18,9 +18,9 @@ else:
 def ladder_export(ladder_name):
     logger.debug(f"Started ladder_export function")
     ladder_result = []
-    ladder_slice = _request_ladder(ladder_name, 0)
+    ladder_slice = _request_ladder(ladder_name, 43)
     ladder_result += ladder_slice["entries"]
-    ladder_limit = 400
+    ladder_limit = 43
     logger.debug(f"Ladder limit set to {ladder_limit}")
     ladder_total = ladder_limit
     # beause we already requested the first 200 slice
@@ -30,8 +30,8 @@ def ladder_export(ladder_name):
     else:
         ladder_total = ladder_slice["total"]
         logger.info(f"Ladder total entries are {ladder_total}")
-    if ladder_total <= 200:
-        logger.info(f"Ladder is under 200 entries we already fetched that earlier")
+    if ladder_total <= 43:
+        logger.info(f"Ladder is under 43 entries we already fetched that earlier")
     else:
         for i in range(math.ceil(ladder_total/ladder_limit)):
             ladder_slice = _request_ladder(ladder_name, i*200)

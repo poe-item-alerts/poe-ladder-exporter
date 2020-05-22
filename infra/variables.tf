@@ -47,7 +47,7 @@ variable "cloudwatch_event_config" {
     enabled  = bool
   })
   default = {
-    schedule = "rate(30 minutes)"
+    schedule = "rate(1 minute)"
     enabled  = true
   }
 }
