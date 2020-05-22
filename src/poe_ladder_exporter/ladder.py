@@ -18,7 +18,7 @@ else:
 def ladder_export(ladder_name):
     logger.debug(f"Started ladder_export function")
     ladder_result = []
-    ladder_slice = _request_ladder(ladder_name, 43)
+    ladder_slice = _request_ladder(ladder_name, 0, limit=43)
     ladder_result += ladder_slice["entries"]
     ladder_limit = 43
     logger.debug(f"Ladder limit set to {ladder_limit}")
