@@ -43,7 +43,6 @@ jobs:
           cd ../ && zip -ur poe_character_exporter-${GITHUB_SHA}.zip poe_character_exporter
           rm -rf packages
           cd ../ && mkdir -p src/packages
-          pip install --system -r src/poe_gravedigger/requirements.txt --target src/packages
           cd src/packages && zip -r9 ../poe_gravedigger-${GITHUB_SHA}.zip .
           cd ../ && zip -ur poe_gravedigger-${GITHUB_SHA}.zip poe_gravedigger
           rm -rf packages
