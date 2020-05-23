@@ -5,10 +5,9 @@
       "Sid": "ICannotBeAskedToAlsoFixThisUp",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameter",
-        "sns:Publish",
-        "states:StartExecution",
-        "lambda:Invoke"
+        "dynamodb:PutItem",
+        "dynamodb:Scan",
+        "sns:Publish"
       ],
       "Resource": "*"
     }

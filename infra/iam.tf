@@ -1,3 +1,5 @@
+# poe_ladder_exporter
+
 resource "aws_iam_role" "poe_ladder_exporter" {
   name               = "poe_ladder_exporter_execution"
   assume_role_policy = file("policies/lambda_assume_role.json")
@@ -19,6 +21,8 @@ resource "aws_iam_role_policy_attachment" "poe_api_exporter_lambda_basic_executi
   role       = aws_iam_role.poe_ladder_exporter.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+# poe_character_exporter
 
 resource "aws_iam_role" "poe_character_exporter" {
   name               = "poe_character_exporter_execution"
@@ -59,6 +63,8 @@ resource "aws_iam_role_policy_attachment" "poe_character_exporter_sfn" {
   policy_arn = aws_iam_policy.poe_character_exporter_sfn.arn
 }
 
+# API
+
 resource "aws_iam_role" "app_sync" {
   name               = "poe_ladder_export_app_sync"
   assume_role_policy = file("policies/app_sync_assume_role.json")
@@ -74,4 +80,28 @@ resource "aws_iam_policy" "app_sync" {
 resource "aws_iam_role_policy_attachment" "app_sync" {
   role       = aws_iam_role.app_sync.name
   policy_arn = aws_iam_policy.app_sync.arn
+}
+
+# poe_graverdigger
+
+resource "aws_iam_role" "poe_gravedigger" {
+  name               = "poe_gravedigger_execution"
+  assume_role_policy = file("policies/lambda_assume_role.json")
+  tags               = var.tags
+}
+
+resource "aws_iam_policy" "poe_gravedigger_execution" {
+  name        = "poe_gravedigger_execution"
+  description = "Allows the lambda function to write to SNS for deadletter and to SQS for further components"
+  policy      = file("policies/poe_gravedigger.json")
+}
+
+resource "aws_iam_role_policy_attachment" "poe_gravedigger" {
+  role       = aws_iam_role.poe_gravedigger.name
+  policy_arn = aws_iam_policy.poe_gravedigger_execution.arn
+}
+
+resource "aws_iam_role_policy_attachment" "poe_gravedigger_lambda_basic_execution" {
+  role       = aws_iam_role.poe_gravedigger.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }

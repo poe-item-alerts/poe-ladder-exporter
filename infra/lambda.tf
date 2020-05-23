@@ -49,3 +49,25 @@ resource "aws_lambda_function" "poe_character_exporter" {
     target_arn = aws_sns_topic.deadletter.arn
   }
 }
+
+resource "aws_lambda_function" "poe_gravedigger" {
+  filename      = "../src/poe_gravedigger-${var.commit_sha}.zip"
+  function_name = "poe_gravedigger"
+  description   = "Puts people in graves when they die :)"
+  role          = aws_iam_role.poe_gravedigger.arn
+  handler       = "poe_gravedigger.handler.handler"
+  runtime       = var.poe_gravedigger_lambda_config["runtime"]
+  timeout       = var.poe_gravedigger_lambda_config["timeout"]
+  memory_size   = var.poe_gravedigger_lambda_config["memory_size"]
+  tags          = var.tags
+
+  environment {
+    variables = {
+      LOG_LEVEL = var.poe_gravedigger_lambda_config["log_level"]
+    }
+  }
+
+  dead_letter_config {
+    target_arn = aws_sns_topic.deadletter.arn
+  }
+}
