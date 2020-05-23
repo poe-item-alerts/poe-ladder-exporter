@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ICannotBeAskedToAlsoFixThisUp",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:PutItem",
+        "dynamodb:Scan",
+        "sns:Publish"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

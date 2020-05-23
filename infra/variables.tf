@@ -40,6 +40,22 @@ variable "poe_character_lambda_config" {
   }
 }
 
+variable "poe_gravedigger_lambda_config" {
+  description = "Configuration of the deployed lambda function"
+  type = object({
+    memory_size = number,
+    runtime     = string,
+    timeout     = number,
+    log_level   = string,
+  })
+  default = {
+    memory_size = 128
+    runtime     = "python3.7"
+    timeout     = 600
+    log_level   = "DEBUG"
+  }
+}
+
 variable "cloudwatch_event_config" {
   description = "Configuration of the cloudwatch event for the character ingestion"
   type = object({
