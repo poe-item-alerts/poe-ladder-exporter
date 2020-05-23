@@ -55,7 +55,7 @@ resource "aws_lambda_function" "poe_gravedigger" {
   function_name = "poe_gravedigger"
   description   = "Puts people in graves when they die :)"
   role          = aws_iam_role.poe_gravedigger.arn
-  handler       = "poe_gravedigger.handler.handler"
+  handler       = "handler.handler"
   runtime       = var.poe_gravedigger_lambda_config["runtime"]
   timeout       = var.poe_gravedigger_lambda_config["timeout"]
   memory_size   = var.poe_gravedigger_lambda_config["memory_size"]
