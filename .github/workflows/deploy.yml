@@ -43,7 +43,7 @@ jobs:
           cd ../ && zip -ur poe_character_exporter-${GITHUB_SHA}.zip poe_character_exporter
           rm -rf packages
           cd ../ 
-          cd src/poe_gravedigger && zip -r9 ../poe_gravedigger-${GITHUB_SHA}.zip .
+          cd src/ && zip -r9 poe_gravedigger-${GITHUB_SHA}.zip poe_gravedigger
       - name: 'Terraform plan'
         run: |
           cd infra/
