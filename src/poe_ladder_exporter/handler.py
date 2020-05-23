@@ -18,6 +18,7 @@ else:
 def handler(event, context):
     logger.debug(f"Started handler function")
     logger.debug(f"Creating boto3 ssm client to retrieve ladders")
+    client = boto3.client("lambda")
     ssm = boto3.client("ssm")
     leagues = ssm.get_parameter(
         Name="/poe-item-alerts/character-load/ladders"
@@ -32,6 +33,13 @@ def handler(event, context):
     logger.debug(f"Generating events per entry")
     entries = []
     for entry in ladder:
+        if entry["dead"]:
+            client.invoke(
+                FunctionName="poe_gravedigger",
+                InvocationType="Event",
+                Payload=json.dumps({"character": entry["character"]["name"]})
+            )
+            continue
         tmp = {
             "account": entry["account"]["name"],
             "character": entry["character"]["name"],
