@@ -8,7 +8,7 @@
         "ssm:GetParameter",
         "sns:Publish",
         "states:StartExecution",
-        "lambda:Invoke"
+        "lambda:InvokeFunction"
       ],
       "Resource": "*"
     }
