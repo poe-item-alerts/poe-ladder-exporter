@@ -1,2 +1,8 @@
+[run]
+omit = 
+  tests/*
+  conftest.py
+branch = True
+
 [report]
 show_missing = True
