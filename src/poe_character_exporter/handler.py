@@ -18,12 +18,6 @@ else:
 
 def handler(event, context):
     ddb = boto3.resource("dynamodb")
-    if not event.get("CorrelationId"):
-        logger.warning(f"Missing correlation id in the envent! Generating one...")
-        correlation_id = uuid.uuid4()
-    else:
-        correlation_id = event["CorrelationId"]
-    logger.debug(f"Started handler {correlation_id}")
     # due to the rate limiting of the poe character API
     for i in range(0,44):
         if not event["characters"]:
@@ -42,17 +36,7 @@ def handler(event, context):
                 break
         else:
             poe_character_table = ddb.Table("poe_item_alerts_characters") 
-            for item in character["items"]:
-                ddb_item = format_item(item)
-                ddb_item["character_name"] = c["character"]
-                ddb_item["character_class"] = character["character"]["class"]
-                ddb_item["character_level"] = character["character"]["level"]
-                ddb_item["account_name"] = c["account"]
-                current_epoch = int(datetime.now(tz=timezone.utc).timestamp())
-                ddb_item["created"] = current_epoch
-                ddb_item["ttl"] = current_epoch + 86400
-                ddb_item["dead"] = c["dead"]
-                poe_character_table.put_item(Item=ddb_item)
+            poe_character_table.put_item(Item=character)
             logger.info(f"Ingested {c['character']}")
     return event
 

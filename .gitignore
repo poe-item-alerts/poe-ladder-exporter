@@ -37,9 +37,13 @@ pip-delete-this-directory.txt
 nosetests.xml
 coverage.xml
 *.cover
+htmlcov
 
 # Binary files
 *.zip
 
 # Terraform state
 *.terraform*
+
+# local env files
+.env*

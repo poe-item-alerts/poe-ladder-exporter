@@ -6,7 +6,6 @@ import os
 
 from decimal import Decimal
 
-import boto3
 import requests
 
 logger = logging.getLogger(__name__)
@@ -49,7 +48,8 @@ def get_character(account_name, character_name):
             }
         }
     logger.debug(f"Got {character_name}!")
-    return character_json
+    result = format_character(character_json, account_name)
+    return result
 
 
 def _rate_limit_backoff(headers):
@@ -69,7 +69,7 @@ def _rate_limit_backoff(headers):
 
 def format_character(character, account):
     logger.debug(f"Starting function format_character")
-    parsed = remove_empty_string(json.loads(json.dumps(character), parse_float=Decimal))
+    parsed = remove_empty_string(json.loads(json.dumps(character)))
     ddb_item = {
         "league_name": parsed["character"]["league"],
         "account_name": account,
