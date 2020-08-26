@@ -42,7 +42,7 @@ def test_handler_happy_path(mocker, ddb_character_table):
     with open(formatted_character_path) as f:
         formatted_character = json.load(f)
 
-    # mocker.patch("handler.get_character", return_value=formatted_character)
+    mocker.patch("handler.get_character", return_value=formatted_character)
     event = {
         "characters": [
             {
@@ -52,9 +52,51 @@ def test_handler_happy_path(mocker, ddb_character_table):
         ]
     }
     result = handler(event, {})
-    print(result)
-    # assert result == {"characters": -1}
-    assert False
+    assert result == {"characters": -1}
+
+
+def test_handler_character_error(mocker, ddb_character_table):
+    formatted_character_path = os.path.join(
+        this_dir,
+        "poe_api_responses",
+        "formatted_character.json"
+    )
+    with open(formatted_character_path) as f:
+        formatted_character = json.load(f)
+
+    mocker.patch("handler.get_character", return_value={"error": { "code": 1}})
+    event = {
+        "characters": [
+            {
+                "account": "TestAccount",
+                "character": "TestCharacter"
+            }
+        ]
+    }
+    result = handler(event, {})
+    assert result == {"characters": -1}
+
+
+def test_handler_rate_limit_error(mocker, ddb_character_table):
+    formatted_character_path = os.path.join(
+        this_dir,
+        "poe_api_responses",
+        "formatted_character.json"
+    )
+    with open(formatted_character_path) as f:
+        formatted_character = json.load(f)
+
+    mocker.patch("handler.get_character", return_value={"error": { "code": 2}})
+    event = {
+        "characters": [
+            {
+                "account": "TestAccount",
+                "character": "TestCharacter"
+            }
+        ]
+    }
+    result = handler(event, {})
+    assert result == {"characters": []}
 
     
 def test_get_character_happy_path(requests_mock):
