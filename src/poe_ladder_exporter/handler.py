@@ -26,14 +26,16 @@ def handler(event, context):
     logger.info(f"Got ladder: {leagues}")
     logger.info(f"Starting ladder extraction process")
     ladder = ladder_export(leagues)
-    if not ladder:
-        logger.critical(f"There was an error getting the ladder! Exiting...")
-        return
     logger.info(f"Got ladder with {len(ladder)} entries")
+    if len(ladder) < 1:
+        logger.warning("Ladder is empty, has the event started?")
+        return
     logger.debug(f"Generating events per entry")
     entries = []
     for entry in ladder:
         if entry["dead"]:
+            # TODO: exception handling here - needs a retry logic on the invocation for a timeout
+            # and just a warning if the lambda does not accept the events
             client.invoke(
                 FunctionName="poe_gravedigger",
                 InvocationType="Event",
@@ -51,8 +53,11 @@ def handler(event, context):
     client = boto3.client('stepfunctions')
     logger.info(f"Starting step function execution with {correlation_id}")
     try:
+        state_machines = client.list_state_machines()["stateMachines"]
+        state_machine = [s["stateMachineArn"] for s in state_machines if s["name"] == "poe_character_exporter"][0]
         response = client.start_execution(
-            stateMachineArn="arn:aws:states:eu-central-1:983498139013:stateMachine:poe_character_exporter",
+            # stateMachineArn="arn:aws:states:eu-central-1:983498139013:stateMachine:poe_character_exporter",
+            stateMachineArn=state_machine,
             name=f"{correlation_id}",
             input=json.dumps(return_event)
         )
