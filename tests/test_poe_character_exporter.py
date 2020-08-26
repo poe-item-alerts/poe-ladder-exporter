@@ -1,13 +1,62 @@
 import json
 import os
 
+import boto3
 import pytest
 import requests
+from moto import mock_dynamodb2
 from requests_mock import ANY as http_any
 
 from character import get_character, format_item
+from handler import handler
 
 
+this_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+@pytest.fixture
+def ddb_character_table(ddb_mock):
+    ddb_mock.create_table(
+        TableName="poe_item_alerts_characters",
+        KeySchema=[
+            {
+                "AttributeName": "character_name",
+                "KeyType": "HASH"
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                "AttributeName": "character_name",
+                "AttributeType": "S"
+            }
+        ]
+    )
+        
+        
+def test_handler_happy_path(mocker, ddb_character_table):
+    formatted_character_path = os.path.join(
+        this_dir,
+        "poe_api_responses",
+        "formatted_character.json"
+    )
+    with open(formatted_character_path) as f:
+        formatted_character = json.load(f)
+
+    # mocker.patch("handler.get_character", return_value=formatted_character)
+    event = {
+        "characters": [
+            {
+                "account": "TestAccount",
+                "character": "TestCharacter"
+            }
+        ]
+    }
+    result = handler(event, {})
+    print(result)
+    # assert result == {"characters": -1}
+    assert False
+
+    
 def test_get_character_happy_path(requests_mock):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     get_items_response_path = os.path.join(

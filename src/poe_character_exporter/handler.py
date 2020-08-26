@@ -7,7 +7,7 @@ from datetime import timezone, datetime
 
 import boto3
 
-from poe_character_exporter.character import get_character, format_item
+from character import get_character
 
 logger = logging.getLogger(__name__)
 if os.environ.get("LOG_LEVEL"):

@@ -1,5 +1,8 @@
 pytest
 pytest-cov
+pytest-mock
 requests_mock
 requests
 boto3
+moto
+
