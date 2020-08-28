@@ -47,3 +47,6 @@ htmlcov
 
 # local env files
 .env*
+
+# Sourcetrail project files
+*.srctrl*
