@@ -6,6 +6,7 @@ from urllib.parse import urlencode
 
 import requests
 
+
 logger = logging.getLogger(__name__)
 if os.environ.get("LOG_LEVEL"):
     logger.setLevel(os.environ["LOG_LEVEL"])
@@ -36,9 +37,10 @@ def get_character_items(account_name, character_name):
                            "character": character_name
                        },
                        headers={"content-type": "application/json"})
+    response_json = response.json()
     # handling website api error response since they come back with 200s
-    if response.get("error"):
-        error = response["error"]
+    if response_json.get("error"):
+        error = response_json["error"]
         if error["code"] == 1:
             logger.warning(f"Character {character_name} was deleted! Returning empty result.")
             return {}
@@ -48,7 +50,7 @@ def get_character_items(account_name, character_name):
         else:
             logger.critical(f"Unhandled error code from character-window API! Returning empty result and dumping error: {error}")
             return {}
-    return response.json()
+    return response_json
 
 
 def get_ladder(ladder_name, limit=44, offset=0):
@@ -72,14 +74,17 @@ def get_ladder(ladder_name, limit=44, offset=0):
             https://www.pathofexile.com/developer/docs/api-resource-ladders#get
     """
     logger.debug(f"ladder_export invoked for {ladder_name}")
-    response = _make_call(f"ladder/{ladder_name}", parameters={"limit": limit, "offset": offset})
+    response = _make_call(
+        f"ladders/{ladder_name}",
+        parameters={"limit": limit, "offset": offset},
+        headers={"content-type": "application/json"}
+    )
     if response.status_code == 404:
         logger.warning(f"{ladder_name} is not a valid ladder returning empty result!")
         return {}
     elif response.status_code != 200 and response.status_code != 404:
         logger.critical(f"Unhandled {response.status_code} code in response! Response: {response.text}")
         sys.exit(1)
-    print(response)
     return response.json()
 
 
