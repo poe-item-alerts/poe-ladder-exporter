@@ -8,10 +8,10 @@ import requests
 
 
 logger = logging.getLogger(__name__)
-if os.environ.get("LOG_LEVEL"):
-    logger.setLevel(os.environ["LOG_LEVEL"])
-else:
-    logger.setLevel("INFO")
+# if os.environ.get("LOG_LEVEL"):
+#     logger.setLevel(os.environ["LOG_LEVEL"])
+# else:
+#     logger.setLevel("WARNING")
 
 
 def get_character_items(account_name, character_name):
